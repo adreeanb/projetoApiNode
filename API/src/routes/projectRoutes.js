@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 // Importação das rotas aninhadas (dependentes de uma obra específica)
+const projectController = require('../controllers/projectController');
 const taskRoutes = require('./taskRoutes');
 const projectMaterialRoutes = require('./projectMaterialRoutes');
 const logRoutes = require('./logRoutes');
 
-// Rotas principais de Obras
+//Rotas das funções do controller
+router.get('/', projectController.getAllProjects);
+router.post('/', projectController.createProject);
+// Rotas principais
 router.get('/', (req, res) => {
     res.status(200).json({ message: "Listando todas as obras" });
 });

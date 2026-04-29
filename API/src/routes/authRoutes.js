@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
+const projectController = require('../controllers/userController');
+//Rotas do userController
+
+router.get('/', userController.getAllUsers);
+router.post('/', userController.createUser);
+
 // POST /api/auth/login -> Faz o login e retorna um token
 router.post('/login', (req, res) => {
     const { email, password } = req.body;

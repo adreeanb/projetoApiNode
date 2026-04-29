@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 1. Tabela de Usuários (Admin, Engenheiros)
+model User {
+  id            String     @id @default(uuid())
+  name          String
+  email         String     @unique
+  password_hash String
+  role          String     @default("ENGINEER") // Pode ser ADMIN, ENGINEER, etc
+  created_at    DateTime   @default(now())
+
+  // Relacionamentos
+  projects      Project[]  // Obras que o engenheiro gerencia
+  daily_logs    DailyLog[] // Relatórios que este usuário preencheu
+}
+
+// 2. Tabela de Obras
+model Project {
+  id          String    @id @default(uuid())
+  name        String
+  location    String?
+  budget      Decimal   @db.Decimal(10, 2)
+  status      String    @default("PLANEJAMENTO") // PLANEJAMENTO, ANDAMENTO, PAUSADA, CONCLUIDA
+  start_date  DateTime?
+  end_date    DateTime?
+  
+  engineer_id String
+  engineer    User      @relation(fields: [engineer_id], references: [id])
+
+  // Relacionamentos
+  tasks       Task[]
+  materials   ProjectMaterial[]
+  logs        DailyLog[]
+}
+
+// 3. Tabela de Etapas (Cronograma)
+model Task {
+  id                  String    @id @default(uuid())
+  name                String    // ex: "Fundação", "Alvenaria"
+  status              String    @default("PENDENTE") // PENDENTE, EM_PROGRESSO, CONCLUIDA
+  progress_percentage Int       @default(0)
+  start_date          DateTime?
+  end_date            DateTime?
+
+  project_id          String
+  project             Project   @relation(fields: [project_id], references: [id])
+}
+
+// 4. Catálogo Global de Materiais
+model Material {
+  id            String    @id @default(uuid())
+  name          String    // ex: "Cimento Votorantim 50kg"
+  unit          String    // ex: "Saco", "Unidade", "Kg", "Metro"
+  cost_per_unit Decimal   @db.Decimal(10, 2)
+
+  // Relacionamentos
+  project_usage ProjectMaterial[]
+}
+
+// 5. Estoque e Uso de Materiais na Obra Específica
+model ProjectMaterial {
+  id               String   @id @default(uuid())
+  quantity_planned Int      @default(0)
+  quantity_used    Int      @default(0)
+
+  project_id       String
+  project          Project  @relation(fields: [project_id], references: [id])
+  
+  material_id      String
+  material         Material @relation(fields: [material_id], references: [id])
+}
+
+// 6. Diário de Obras
+model DailyLog {
+  id              String   @id @default(uuid())
+  date            DateTime @default(now())
+  weather         String   // ex: "Ensolarado", "Chuva Forte"
+  workers_present Int      // Efetivo do dia
+  notes           String?  // Ocorrências, atrasos, etc
+
+  project_id      String
+  project         Project  @relation(fields: [project_id], references: [id])
+
+  user_id         String
+  user            User     @relation(fields: [user_id], references: [id])
+}
