@@ -1,13 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-
-// Middleware para entender JSON no body das requisições
+app.use(cors());
 app.use(express.json());
 
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const authenticateToken = require('./middlewares/authMiddleware');
+
+
 
 // Registrando as rotas base
 app.use('/api/auth', authRoutes);
