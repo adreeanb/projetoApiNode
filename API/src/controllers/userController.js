@@ -4,13 +4,11 @@ const createUser = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
 
-        // Nota: Em um ambiente real, NUNCA salvamos a senha em texto puro.
-        // Futuramente usaremos uma biblioteca como o 'bcrypt' para criptografar (hashear) essa senha.
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
-                password_hash: password, // Temporário, até implementarmos criptografia
+                password_hash: password,
                 role: role || "ENGINEER"
             }
         });

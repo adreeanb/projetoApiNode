@@ -1,27 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const projectController = require('../controllers/userController');
-//Rotas do userController
+// Importa o controller de usuários
+const userController = require('../controllers/userController');
 
-router.get('/', userController.getAllUsers);
-router.post('/', userController.createUser);
-
-// POST /api/auth/login -> Faz o login e retorna um token
+// Rota simulada de login (vamos implementar de verdade no próximo passo com JWT)
 router.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    res.status(200).json({ message: "Login realizado com sucesso", token: "jwt_token_simulado" });
+    res.status(200).json({ message: "Login em construção" });
 });
 
-// POST /api/auth/register -> Cria um novo usuário
-router.post('/register', (req, res) => {
-    const { name, email, role } = req.body;
-    res.status(201).json({ message: "Usuário criado", data: { name, email, role } });
-});
-
-// GET /api/auth/users -> Lista os usuários do sistema
-router.get('/users', (req, res) => {
-    res.status(200).json({ message: "Lista de usuários (Engenheiros, Admin, etc)" });
-});
+// Rotas reais usando o Controller
+router.post('/register', userController.createUser); // <-- O erro provavelmente estava aqui na linha 7
+router.get('/users', userController.getAllUsers);
 
 module.exports = router;

@@ -8,3 +8,5 @@ const projectMaterialController = require('../controllers/projectMaterialControl
 router.post('/allocate', projectMaterialController.allocateMaterial);
 router.patch('/consume', projectMaterialController.consumeMaterial);
 router.get('/', projectMaterialController.getProjectMaterials);
+
+module.exports = router;
