@@ -22,7 +22,6 @@ const createUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         const users = await prisma.user.findMany({
-            // Não retornamos a senha por segurança
             select: { id: true, name: true, email: true, role: true }
         });
         res.status(200).json(users);
