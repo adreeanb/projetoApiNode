@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 import PrivateRoute from './components/PrivateRoute';
 import MainLayout from './components/MainLayout';
+import Projetos from './pages/Projetos';
 // Importe as outras páginas que você criar (Projetos, etc)
 
 function App() {
@@ -24,7 +25,13 @@ function App() {
             </PrivateRoute>
           } 
         />
-        
+        <Route path="/projetos" element={
+          <PrivateRoute>
+            <MainLayout>
+              <Projetos />
+            </MainLayout>
+          </PrivateRoute>
+        } />
         {/* Rota padrão */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
