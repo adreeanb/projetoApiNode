@@ -1,6 +1,12 @@
 const express = require('express');
 // mergeParams: true é essencial aqui para acessar o :projectId do projectRoutes
 const router = express.Router({ mergeParams: true });
+const taskController = require('../controllers/taskController')
+
+//taskController rotas
+
+router.post('/', taskController.createTask)
+router.patch('/:taskId/progress', taskController.updateTaskProgress)
 
 router.get('/', (req, res) => {
     const { projectId } = req.params;
