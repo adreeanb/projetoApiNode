@@ -1,11 +1,10 @@
 const prisma = require('../lib/prisma');
 
-// Criar uma nova obra
 const createProject = async (req, res) => {
     try {
         const { name, location, budget, engineer_id } = req.body;
 
-        // O Prisma faz a inserção no banco automaticamente
+
         const project = await prisma.project.create({
             data: {
                 name,
@@ -23,7 +22,7 @@ const createProject = async (req, res) => {
     }
 };
 
-// Listar todas as obras
+
 const getAllProjects = async (req, res) => {
     try {
         const projects = await prisma.project.findMany({
@@ -39,16 +38,14 @@ const getAllProjects = async (req, res) => {
         res.status(500).json({ error: "Erro ao buscar as obras." });
     }
 };
-// Adicione estas duas funções no seu projectController.js
 
-// Buscar uma obra específica pelo ID
 const getProjectById = async (req, res) => {
     try {
         const { projectId } = req.params;
         
         const project = await prisma.project.findUnique({
             where: { id: projectId },
-            // O Prisma traz o Engenheiro e as Etapas (Tasks) dessa obra automaticamente!
+     
             include: { 
                 engineer: { select: { name: true, email: true } },
                 tasks: true 
@@ -65,11 +62,10 @@ const getProjectById = async (req, res) => {
     }
 };
 
-// Atualizar o status da obra
 const updateProjectStatus = async (req, res) => {
     try {
         const { projectId } = req.params;
-        const { status } = req.body; // Ex: "ANDAMENTO", "CONCLUIDA"
+        const { status } = req.body; 
 
         const project = await prisma.project.update({
             where: { id: projectId },
@@ -82,8 +78,6 @@ const updateProjectStatus = async (req, res) => {
     }
 };
 
-// Não esqueça de exportar elas no final:
-// module.exports = { createProject, getAllProjects, getProjectById, updateProjectStatus };
 module.exports = {
     createProject,
     getAllProjects,

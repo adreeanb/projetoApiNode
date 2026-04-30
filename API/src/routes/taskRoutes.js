@@ -1,5 +1,5 @@
 const express = require('express');
-// mergeParams: true é essencial aqui para acessar o :projectId do projectRoutes
+// mergeParams: true para acessar o :projectId do projectRoutes
 const router = express.Router({ mergeParams: true });
 const taskController = require('../controllers/taskController')
 

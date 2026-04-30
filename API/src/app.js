@@ -9,9 +9,6 @@ const projectRoutes = require('./routes/projectRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const authenticateToken = require('./middlewares/authMiddleware');
 
-
-
-// Registrando as rotas base
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', authenticateToken, projectRoutes);
 app.use('/api/materials', materialRoutes);

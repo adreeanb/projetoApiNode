@@ -6,7 +6,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// 1. Tabela de Usuários (Admin, Engenheiros)
+// 1. Tabela de Usuários
 model User {
   id            String     @id @default(uuid())
   name          String
