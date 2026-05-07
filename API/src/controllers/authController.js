@@ -12,8 +12,6 @@ const login = async (req, res) => {
             return res.status(401).json({ error: "E-mail ou senha inválidos." });
         }
 
-        // AQUI ESTAVA O PROBLEMA: 
-        // Usamos password_hash porque é assim que o Prisma trouxe do banco
         const passwordMatch = await bcrypt.compare(password, user.password_hash);
         
         if (!passwordMatch) {
